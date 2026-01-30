@@ -33,6 +33,6 @@ test {
 
     testLogging {
         events "passed", "failed", "skipped"
-        showStandardStreams = true
+        showStandardStreams = false
     }
 }

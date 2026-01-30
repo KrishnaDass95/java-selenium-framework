@@ -4,6 +4,9 @@
 # Ignore Gradle build output directory
 build
 
+#Ignore Allure reports output directory
+allure-results
+
 bin/
 .settings/
 .project/
