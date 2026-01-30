@@ -12,7 +12,7 @@ public class LoginPage {
     private final By usernameInput = By.id("username");
     private final By passwordInput = By.id("password");
     private final By loginButton = By.cssSelector("button.button");
-    // private final By loginErrorMessage = By.id("notistack-snackbar");
+    private final By loginErrorMessage = By.id("notistack-snackbar");
 
     public void open(){
         String baseUrl = ConfigReader.getInstance().getProperty("baseUrl");
@@ -24,6 +24,10 @@ public class LoginPage {
         WaitUtils.waitForVisibility(usernameInput).sendKeys(userName);
         WaitUtils.waitForVisibility(passwordInput).sendKeys(password);
         WaitUtils.waitForClickable(loginButton).click();
+    }
+
+    public boolean isLoginErrorMessageVisible(){
+        return WaitUtils.waitForVisibility(loginErrorMessage).isDisplayed();
     }
     
 }

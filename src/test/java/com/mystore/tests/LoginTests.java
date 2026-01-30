@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import com.mystore.base.BaseTest;
 import com.mystore.flows.LoginFlow;
+import com.mystore.pages.LoginPage;
 import com.mystore.pages.ProductsPage;
 
 public class LoginTests extends BaseTest {
@@ -16,7 +17,17 @@ public class LoginTests extends BaseTest {
         loginFlow.loginAs("testkd", "test123");
         ProductsPage productsPage = new ProductsPage();
         Assert.assertTrue(productsPage.isLogoutButtonVisible(), "Logout button not visible after successful login");
-        
+
+    }
+
+    @Test
+    public void shouldNotLoginWithInvalidCredentials(){
+        LoginFlow loginFlow = new LoginFlow();
+        LoginPage loginPage = new LoginPage();
+        loginFlow.loginAs("testkdadsasd", "test123asd");
+        boolean status = loginPage.isLoginErrorMessageVisible();
+        Assert.assertTrue(status, "Invalid credentials did not show Login failure message");
+
     }
     
 }
