@@ -18,7 +18,6 @@ public class LoginTests extends BaseTest {
         ProductsPage productsPage = new ProductsPage();
         Assert.assertTrue(productsPage.isLogoutButtonVisible(), "Logout button not visible after successful login");
         Assert.assertTrue(productsPage.isPageLoaded(), "Product cards not loaded");
-
     }
 
     @Test
