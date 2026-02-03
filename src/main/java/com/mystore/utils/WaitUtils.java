@@ -2,6 +2,7 @@ package com.mystore.utils;
 
 
 import java.time.Duration;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -20,6 +21,10 @@ public class WaitUtils {
         return getWait().until(
             ExpectedConditions.visibilityOfElementLocated(locator)
         );
+    }
+
+    public static List<WebElement> waitForAllElementVisible(By locator){
+        return getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
 
     public static WebElement waitForClickable(By locator){
