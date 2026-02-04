@@ -18,6 +18,10 @@ public class ProductsFlow {
         productsPage.addFirstProductToCart();
     }
 
+    public int getCartCount(){
+        return productsPage.getCartCount();
+    }
+
     public void goToCheckoutPage(){
         productsPage.goToCheckout();
     }

@@ -16,6 +16,7 @@ public class ProductsPage {
     private final By productTitle = By.xpath(".//p[1]");
     private final By addToCartButton = By.xpath(".//button");
     private final By checkoutButton = By.xpath("//button[normalize-space()='Checkout']");
+    private final By cartImage = By.cssSelector(".image-container");
 
     public boolean isLogoutButtonVisible(){
         try{
@@ -40,6 +41,12 @@ public class ProductsPage {
         List<WebElement> cards = WaitUtils.waitForAllElementVisible(productCards);
         WebElement firstCard = cards.get(0);
         firstCard.findElement(addToCartButton).click();
+    }
+
+    public int getCartCount(){
+        List<WebElement> cartImages = WaitUtils.waitForAllElementVisible(cartImage);
+        return cartImages.size();
+
     }
 
     public void goToCheckout(){
