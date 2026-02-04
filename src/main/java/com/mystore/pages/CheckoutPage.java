@@ -12,7 +12,9 @@ public class CheckoutPage {
     private final By postAddressAddButton = By.xpath("//button[text()='Add']");
     private final By addressSelectRadioButton = By.cssSelector(".address-item");
     private final By placeOrderButton = By.xpath("//button[contains(text(), 'ORDER')]");
-    private final By orderConfirmationSnackBar = By.id("#notistack-snackbar"); // Order placed successfully!
+    // private final By orderConfirmationSnackBar = By.id("#notistack-snackbar"); // Order placed successfully!
+    private final By orderConfirmationText = By.cssSelector(".greeting-container");
+    private final By orderConfirmationInnerText = By.xpath(".//h2");
 
     public void addAddress(String addressText){
         WaitUtils.waitForVisibility(addAddressButton).click();
@@ -30,9 +32,9 @@ public class CheckoutPage {
     }
 
     public boolean isOrderPlaced(){
-        return WaitUtils
-                .waitForVisibility(orderConfirmationSnackBar)
-                .isDisplayed();
+        String text = WaitUtils.waitForVisibility(orderConfirmationText)
+            .findElement(orderConfirmationInnerText).getText();
+        return text.contains("It's ordered");
     }
 
 
