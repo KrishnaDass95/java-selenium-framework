@@ -1,6 +1,6 @@
 package com.mystore.pages;
 
-import java.util.ArrayList;
+// import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -13,7 +13,7 @@ public class ProductsPage {
     // Locators
     private final By logoutButton = By.xpath("//button[normalize-space()='Logout']");
     private final By productCards = By.cssSelector(".card");
-    private final By productTitle = By.xpath(".//p[1]");
+    // private final By productTitle = By.xpath(".//p[1]");
     private final By addToCartButton = By.xpath(".//button");
     private final By checkoutButton = By.xpath("//button[normalize-space()='Checkout']");
     private final By cartImage = By.cssSelector(".image-container");
