@@ -20,6 +20,7 @@ public class CheckoutTests extends BaseTest{
         CheckoutFlow checkoutFlow = new CheckoutFlow();
         checkoutFlow.completeCheckout("Los Angeles International Airport (LAX) is located at 1 World Way, Los Angeles, CA 90045");
         Assert.assertTrue(checkoutFlow.isOrderConfirmed());
+        Assert.assertTrue(false);
     
     }
     
