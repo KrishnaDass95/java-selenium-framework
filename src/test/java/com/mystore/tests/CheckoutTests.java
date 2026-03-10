@@ -5,15 +5,13 @@ import org.testng.annotations.Test;
 
 import com.mystore.base.BaseTest;
 import com.mystore.flows.CheckoutFlow;
-import com.mystore.flows.LoginFlow;
 import com.mystore.flows.ProductsFlow;
 
 public class CheckoutTests extends BaseTest{
 
     @Test
     public void shouldCompleteCheckout(){
-        LoginFlow loginFlow = new LoginFlow();
-        loginFlow.loginAs("testkd1", "test123");
+        createFreshUser();
 
         ProductsFlow productsFlow = new ProductsFlow();
         productsFlow.addFirstProductToCart();
