@@ -13,8 +13,11 @@ import com.mystore.driver.DriverManager;
 
 public class WaitUtils {
 
+    private static final int DEFAULT_TIMEOUT = 10;
+
     private static WebDriverWait getWait(){
-        return new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
+        return new WebDriverWait(
+            DriverManager.getDriver(), Duration.ofSeconds(DEFAULT_TIMEOUT));
     }
 
     public static WebElement waitForVisibility(By locator){
@@ -24,7 +27,8 @@ public class WaitUtils {
     }
 
     public static List<WebElement> waitForAllElementVisible(By locator){
-        return getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+        return getWait().until(
+            ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
 
     public static WebElement waitForClickable(By locator){

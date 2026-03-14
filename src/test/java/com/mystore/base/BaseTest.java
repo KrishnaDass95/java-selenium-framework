@@ -11,7 +11,7 @@ public class BaseTest {
 
     public User testUser;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp(){
         DriverFactory.initDriver();
     }

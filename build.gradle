@@ -34,7 +34,21 @@ test {
     }
 
     testLogging {
+        // Only show standard streams for FAILURES to keep success clean
         events "passed", "failed", "skipped"
-        showStandardStreams = false
+        showStandardStreams = true  // <--- Turn this back to TRUE
+        exceptionFormat "full"
+        
+        // This creates a clean summary at the end
+        afterSuite { desc, result ->
+            if (!desc.parent) { // Only for the final root suite
+                println "\n" + "-" * 30
+                println " TEST RESULTS SUMMARY"
+                println "-" * 30
+                println " Result: ${result.resultType}"
+                println " Tests Run: ${result.testCount} (Passed: ${result.successfulTestCount}, Failed: ${result.failedTestCount}, Skipped: ${result.skippedTestCount})"
+                println "-" * 30 + "\n"
+            }
+        }
     }
 }

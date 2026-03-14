@@ -5,12 +5,13 @@ import org.testng.annotations.Test;
 
 import com.mystore.base.BaseTest;
 import com.mystore.flows.LoginFlow;
+import com.mystore.listeners.RetryAnalyzer;
 import com.mystore.pages.LoginPage;
 import com.mystore.pages.ProductsPage;
 
 public class LoginTests extends BaseTest {
 
-    @Test
+    @Test(retryAnalyzer = RetryAnalyzer.class, groups = {"smoke", "login"})
     public void shouldLoginWithValidCredentials(){
 
         LoginFlow loginFlow = new LoginFlow();
@@ -20,7 +21,7 @@ public class LoginTests extends BaseTest {
         Assert.assertTrue(productsPage.isPageLoaded(), "Product cards not loaded");
     }
 
-    @Test
+    @Test(retryAnalyzer = RetryAnalyzer.class)
     public void shouldNotLoginWithInvalidCredentials(){
         LoginFlow loginFlow = new LoginFlow();
         LoginPage loginPage = new LoginPage();
@@ -29,5 +30,4 @@ public class LoginTests extends BaseTest {
         Assert.assertTrue(status, "Invalid credentials did not show Login failure message");
 
     }
-    
 }

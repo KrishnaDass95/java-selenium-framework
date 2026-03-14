@@ -15,7 +15,7 @@ public class ScreenshotUtils {
 
         try{
             // double brackets because you want the casting to occur before the method is called
-            // webdriver is converted to a camera temporarily 
+            // webdriver is converted to a camera temporarily (analogy)
             File srcFile = ((TakesScreenshot)DriverManager.getDriver()).getScreenshotAs(OutputType.FILE);
 
             Path destination = Path.of("test-output/screenshots/" + testName + ".png");
