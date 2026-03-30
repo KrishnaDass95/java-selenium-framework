@@ -21,9 +21,7 @@ public class BaseTest {
         testUser = userFlow.createAndLoginUser();
     }
 
-
-
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown(){
         DriverFactory.quitDriver();
     }
