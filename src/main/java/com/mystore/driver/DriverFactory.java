@@ -25,8 +25,11 @@ public class DriverFactory {
                 WebDriverManager.chromedriver().setup();
                 if(headless.equalsIgnoreCase("true")){
                     options.addArguments("--headless=new");
+                    driver = new ChromeDriver(options);
                 }
-                driver = new ChromeDriver(options);
+                else{
+                    driver = new ChromeDriver();
+                }
                 break;
             
             default:
