@@ -7,6 +7,11 @@ build
 #Ignore Allure reports output directory
 allure-results
 
+# Ignore logs folder
+logs
+
+# extras
+.vscode/
 bin/
 .settings/
 .project/

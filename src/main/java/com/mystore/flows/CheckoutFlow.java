@@ -3,6 +3,7 @@ package com.mystore.flows;
 import com.mystore.pages.CheckoutPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.qameta.allure.Step;
 
 public class CheckoutFlow {
 
@@ -15,6 +16,7 @@ public class CheckoutFlow {
         checkoutPage = new CheckoutPage();
     }
 
+    @Step("Complete checkout with address: {address}")
     public void completeCheckout(String address){
         logger.info("Entering address and placing order");
         checkoutPage.addAddress(address);

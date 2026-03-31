@@ -7,6 +7,7 @@ import com.mystore.pages.RegisterPage;
 import com.mystore.utils.TestDataFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.qameta.allure.Step;
 
 public class UserFlow {
 
@@ -21,6 +22,7 @@ public class UserFlow {
         this.loginPage = new LoginPage();
     }
 
+    @Step("Create and login a new user")
     public User createAndLoginUser(){
 
         String email = TestDataFactory.generateUserEmail();

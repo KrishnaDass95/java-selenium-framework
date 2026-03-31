@@ -6,6 +6,7 @@ import java.nio.file.Path;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import io.qameta.allure.Attachment;
 
 import com.mystore.driver.DriverManager;
 
@@ -28,6 +29,11 @@ public class ScreenshotUtils {
         catch(Exception e){
             throw new RuntimeException("Failed to capture screenshot", e);
         }
+    }
+
+    @Attachment(value = "Failure Screenshot", type = "image/png")
+    public static byte[] saveScreenshotToAllure() {
+        return ((TakesScreenshot) DriverManager.getDriver()).getScreenshotAs(OutputType.BYTES);
     }
     
 }

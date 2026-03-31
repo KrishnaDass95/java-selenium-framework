@@ -3,17 +3,20 @@ package com.mystore.flows;
 import com.mystore.pages.LoginPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.qameta.allure.Step;
 
 public class LoginFlow {
 
     private static final Logger logger = 
         LoggerFactory.getLogger(LoginFlow.class);
+
     private LoginPage loginPage;
 
     public LoginFlow(){
         this.loginPage = new LoginPage();
     }
 
+    @Step("Login as user: {username}")
     public void loginAs(String username, String password){
 
         logger.info("Opening login page");

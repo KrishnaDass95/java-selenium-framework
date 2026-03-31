@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "io.qameta.allure" version "2.12.0"
 }
 
 group = 'com.krishna.automation'
@@ -9,6 +10,12 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+}
+
+allure {
+    version = '2.25.0'
+    autoconfigure = true
+    aspectjweaver = true
 }
 
 repositories {
@@ -24,19 +31,27 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.9'
     implementation 'ch.qos.logback:logback-classic:1.4.14'
 
-    // Reporting (later)
-    testImplementation 'io.qameta.allure:allure-testng:2.25.0'
+    // Reporting
+    implementation 'io.qameta.allure:allure-testng:2.25.0'
+    testRuntimeOnly 'org.aspectj:aspectjweaver:1.9.20.1'
 }
 
 test {
     useTestNG() {
         suites 'testng.xml'
     }
+    doFirst {
+        def weaver = configurations.testRuntimeClasspath.find { it.name.contains("aspectjweaver") }
+        if (weaver) {
+            println "DEBUG: Starting AspectJ Weaver at: $weaver"
+            jvmArgs "-javaagent:$weaver"
+        }
+    }
 
     testLogging {
         // Only show standard streams for FAILURES to keep success clean
         events "passed", "failed", "skipped"
-        showStandardStreams = true  // <--- Turn this back to TRUE
+        showStandardStreams = true 
         exceptionFormat "full"
         
         // This creates a clean summary at the end

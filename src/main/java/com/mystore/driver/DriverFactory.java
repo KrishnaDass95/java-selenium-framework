@@ -31,6 +31,7 @@ public class DriverFactory {
                     driver = new ChromeDriver();
                 }
                 break;
+            // Todo other browsers
             
             default:
                 throw new RuntimeErrorException(null, "unsupported browser" + browser);
