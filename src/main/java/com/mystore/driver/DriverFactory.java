@@ -19,6 +19,9 @@ public class DriverFactory {
         String browser = ConfigReader.getInstance().getProperty("browser");
         String headless = ConfigReader.getInstance().getProperty("headless");
         String executionMode = System.getProperty("executionMode", ConfigReader.getInstance().getProperty("executionMode"));
+        System.out.println("DEBUG >>> executionMode: " + executionMode);
+        System.out.println("DEBUG >>> browser: " + browser);
+        System.out.println("DEBUG >>> gridUrl: " + ConfigReader.getInstance().getProperty("gridUrl"));
 
         WebDriver driver;
 

@@ -26,7 +26,7 @@ public class RegisterPage {
         WaitUtils.waitForVisibility(passwordInput).sendKeys(password);
         WaitUtils.waitForVisibility(confirmPasswordInput).sendKeys(confirmPassword);
         WaitUtils.waitForVisibility(registerButton).click();
-        WaitUtils.waitForVisibility(loginButton);
+        // WaitUtils.waitForVisibility(loginButton);
     }
 
     
