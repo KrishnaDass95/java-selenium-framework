@@ -18,6 +18,11 @@ public class RetryAnalyzer implements IRetryAnalyzer{
         if (retryCount < maxRetryCount) {
             retryCount++;
 
+            Throwable cause = result.getThrowable();
+            if (cause != null) {
+            logger.warn("FAILURE REASON: {}", cause.getMessage());
+        }
+
             logger.warn("RETRYING test: [{}] | Attempt: {} of {}", 
                 result.getName(), retryCount, maxRetryCount);
 

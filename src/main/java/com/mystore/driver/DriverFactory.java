@@ -1,20 +1,14 @@
 package com.mystore.driver;
-
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import javax.management.RuntimeErrorException;
-
-import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
 import com.mystore.config.ConfigReader;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverFactory {
