@@ -38,7 +38,8 @@ dependencies {
 
 test {
     useTestNG() {
-        suites 'testng.xml'
+        // suites 'testng.xml'
+        suites 'testngparallel.xml' // Use the parallel execution suite
     }
     doFirst {
         def weaver = configurations.testRuntimeClasspath.find { it.name.contains("aspectjweaver") }

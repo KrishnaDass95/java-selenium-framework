@@ -24,7 +24,7 @@ public class DriverFactory {
         // getting info from config file
         String browser = ConfigReader.getInstance().getProperty("browser");
         String headless = ConfigReader.getInstance().getProperty("headless");
-        String executionMode = ConfigReader.getInstance().getProperty("executionMode");
+        String executionMode = System.getProperty("executionMode", ConfigReader.getInstance().getProperty("executionMode"));
 
         WebDriver driver;
 
