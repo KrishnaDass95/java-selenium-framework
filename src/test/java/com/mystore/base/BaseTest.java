@@ -2,6 +2,9 @@ package com.mystore.base;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+
 
 import com.mystore.driver.DriverFactory;
 import com.mystore.flows.UserFlow;
@@ -11,9 +14,10 @@ public class BaseTest {
 
     public User testUser;
 
+    @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
-    public void setUp(){
-        DriverFactory.initDriver();
+    public void setUp(@Optional("chrome") String browser){
+        DriverFactory.initDriver(browser);
     }
 
     public void createFreshUser(){
