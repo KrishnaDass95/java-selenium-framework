@@ -6,50 +6,51 @@ A high-performance, scalable, and fully containerized UI test automation framewo
 
 ## 🚀 Key Features
 
-* **Selenium 4 Grid Architecture:** Fully containerized Hub-and-Node architecture using Docker Compose, allowing tests to run in isolated Linux environments without local browser dependencies.
-* **True Cross-Browser Parallelism:** Configured to execute test suites on Chrome and Firefox simultaneously, dramatically reducing execution time.
-* **Thread-Safe Driver Management:** Leverages Java's `ThreadLocal<WebDriver>` for instances to prevent data leaks and collisions during high-concurrency parallel runs.
-* **Smart Flaky-Test Management:** Custom `RetryAnalyzer` automatically catches transient failures, captures screenshots, and retries the test to ensure stable builds.
-* **Dynamic Suite & Environment Execution:** Allows developers to choose execution mode (Local vs. Grid) and specific TestNG suites directly via terminal arguments without altering code.
-* **Rich Interactive Reporting:** Native integration with **Allure Reports** featuring step-by-step breakdowns, visual screenshot attachments on failures, and historical execution trends.
+- **Selenium 4 Grid Architecture** — Fully containerized Hub-and-Node architecture using Docker Compose, allowing tests to run in isolated Linux environments without local browser dependencies.
+- **True Cross-Browser Parallelism** — Configured to execute test suites on Chrome and Firefox simultaneously, dramatically reducing execution time.
+- **Thread-Safe Driver Management** — Leverages Java's `ThreadLocal<WebDriver>` to prevent data leaks and driver collisions during high-concurrency parallel runs.
+- **Smart Flaky-Test Management** — Custom `RetryAnalyzer` automatically catches transient failures, captures screenshots, and retries tests to ensure stable builds.
+- **Dynamic Suite & Environment Execution** — Allows developers to choose execution mode (`local` vs `grid`) and specific TestNG suites via terminal arguments without altering any code.
+- **Rich Interactive Reporting** — Native integration with **Allure Reports** featuring step-by-step breakdowns, screenshot attachments on failures, and historical execution trends.
 
 ---
 
-## 🧱 Architecture & Design Decisions
+## 🧱 Architecture & Design
 
-The framework follows a highly readable, layered design to ensure maintainability:
+The framework follows a layered design to ensure maintainability and readability.
 
-```text
-Tests
-  ↓
-Flows (Business Logic)
-  ↓
-Page Objects (UI Interaction)
-  ↓
-Driver / Utils (Selenium handling)
-🔹 Layers Explained
-Tests (/tests): Contain assertions only. They represent business scenarios and do not interact with the WebDriver directly.
+```
+Tests  →  Flows  →  Page Objects  →  Driver / Utils
+```
 
-Flows (/flows): Encapsulate user workflows (e.g., login, checkout) and coordinate multiple page objects to improve readability and reusability.
+| Layer | Location | Responsibility |
+|---|---|---|
+| **Tests** | `/tests` | Assertions only. Represent business scenarios, no direct WebDriver interaction. |
+| **Flows** | `/flows` | Encapsulate user workflows (e.g. login, checkout) by coordinating multiple page objects. |
+| **Page Objects** | `/pages` | Contain locators and UI actions only. No assertions or test logic. |
+| **Utilities** | `/utils` | Explicit waits (`WaitUtils`), screenshot utilities, and reusable helpers. |
+| **Driver Layer** | `/driver` | Centralised driver creation via `DriverFactory` with thread-safe lifecycle management. |
 
-Page Objects (/pages): Represent UI pages. They contain locators and actions only, strictly avoiding assertions or test logic.
+---
 
-Utilities (/utils): Handles explicit waits (WaitUtils), screenshot utilities, and common reusable helpers to avoid implicit waits or hardcoded thread sleeps.
+## 🛠️ Tech Stack
 
-Driver Layer (/driver): Centralized driver creation via DriverFactory managing the thread-safe life cycle.
+| Component | Technology |
+|---|---|
+| Language | Java 17 |
+| Automation Tool | Selenium WebDriver 4 |
+| Test Runner | TestNG |
+| Build Tool | Gradle |
+| Containerisation | Docker & Docker Compose |
+| Reporting | Allure |
+| Logging | SLF4J + Logback |
+| CI/CD | GitHub Actions |
 
-🛠️ Tech Stack
-Component	Technology Used
-Language	Java 17
-Automation Tool	Selenium WebDriver 4
-Test Runner	TestNG
-Build Tool	Gradle
-Containerization	Docker & Docker Compose
-Reporting	Allure
-Logging	SLF4J + Logback
-CI/CD	GitHub Actions
-📂 Project Structure
-Plaintext
+---
+
+## 📂 Project Structure
+
+```
 src
 ├── main
 │   ├── java
@@ -63,56 +64,79 @@ src
 │       └── testdata.properties
 │
 └── test
-    ├── java
-    │   ├── base
-    │   ├── tests
-    │   ├── listeners
-    │   └── dataproviders
-🚦 How to Run the Project
-The framework accepts dynamic command-line arguments to dictate where and how tests are run.
+    └── java
+        ├── base
+        ├── tests
+        ├── listeners
+        └── dataproviders
+```
 
-⚙️ Command-Line Arguments
--DexecutionMode: Options are local (default) or grid.
+---
 
--Dsuite: Points to the specific TestNG XML file in your root folder. Options include:
+## 🚦 How to Run
 
-testng.xml (Default sequential run)
+The framework accepts dynamic command-line arguments to control where and how tests run.
 
-testngparallel.xml (Runs classes in parallel)
+### Command-Line Arguments
 
-testngparallelbrowser.xml (Cross-browser parallel execution)
+| Argument | Options | Default |
+|---|---|---|
+| `-DexecutionMode` | `local`, `grid` | `local` |
+| `-Dsuite` | See suite options below | `testng.xml` |
 
-1. Running Locally (Sequential or Parallel)
-To run tests on your local setup (will fire up the default browser setup in config.properties):
+**Available Suites:**
 
-Bash
-# To run sequential tests locally
+| Suite File | Description |
+|---|---|
+| `testng.xml` | Default sequential run |
+| `testngparallel.xml` | Runs test classes in parallel |
+| `testngparallelbrowser.xml` | Cross-browser parallel execution |
+
+---
+
+### 1. Running Locally
+
+```bash
+# Sequential tests (default)
 ./gradlew clean test
 
-# To run parallel tests locally
+# Parallel tests locally
 ./gradlew clean test -Dsuite=testngparallel.xml
-2. Running on Docker Selenium Grid (Remote)
-To run tests at scale across isolated network containers:
+```
 
-Step A: Spin up the Grid
+---
 
-Bash
+### 2. Running on Docker Selenium Grid
+
+**Step 1 — Spin up the Grid:**
+
+```bash
 docker compose up -d
-💡 You can verify the hub and nodes are running by visiting http://localhost:4444/ui/
+```
 
-Step B: Execute against the Grid
+> Verify the hub and nodes are running at [http://localhost:4444/ui](http://localhost:4444/ui)
 
-Bash
-# Run cross-browser parallel tests on the Grid
+**Step 2 — Execute tests against the Grid:**
+
+```bash
+# Cross-browser parallel tests on Grid
 ./gradlew clean test -Dsuite=testngparallelbrowser.xml -DexecutionMode=grid
-📊 Generating Test Reports
-This project uses Allure for highly visual reporting. To view your reports locally after a test run:
+```
 
-Generate and serve the report:
+---
 
-Bash
+## 📊 Generating Test Reports
+
+This project uses Allure for visual reporting. After any test run, generate and serve the report with:
+
+```bash
 allure serve build/allure-results
-Your default browser will open a local web server hosting the complete graphical suite analysis, complete with screenshots of any failed steps.
+```
 
-👨‍💻 Author
-Krishna Dass
+Your browser will open a local web server with the full graphical suite analysis, including screenshots of any failed steps.
+
+---
+
+## 👨‍💻 Author
+
+**Krishna Dass**
