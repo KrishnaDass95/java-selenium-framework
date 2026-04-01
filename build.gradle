@@ -38,9 +38,8 @@ dependencies {
 
 test {
     useTestNG() {
-        // suites 'testng.xml'
-        // suites 'testngparallel.xml' // Use the parallel execution suite
-        suites 'testngparallelbrowser.xml' // Use the parallel execution suite for multiple browsers
+        def suite = System.getProperty("suite", "testng.xml")
+        suites suite
     }
     systemProperties System.properties
     doFirst {
