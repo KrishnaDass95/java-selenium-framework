@@ -1,23 +1,24 @@
-# Ecommerce UI Automation Framework (Java + Selenium)
+# 🛒 Ecommerce UI Automation Framework
 
-## 📌 Overview
-
-This project is a **scalable UI automation framework** built using **Java, Selenium, TestNG, and Gradle**, designed to simulate real-world automation practices used in modern QA teams.
-
-The framework demonstrates:
-
-* Clean architecture (Page Object + Flow Layer)
-* Thread-safe WebDriver management
-* Test grouping and execution control
-* Logging, retry mechanism, and failure diagnostics
+A high-performance, scalable, and fully containerized UI test automation framework built with **Java, Selenium, TestNG, and Gradle**. This project is designed to simulate real-world automation practices used in modern, high-concurrency QA environments.
 
 ---
 
-## 🧱 Architecture
+## 🚀 Key Features
 
-The framework follows a layered design:
+* **Selenium 4 Grid Architecture:** Fully containerized Hub-and-Node architecture using Docker Compose, allowing tests to run in isolated Linux environments without local browser dependencies.
+* **True Cross-Browser Parallelism:** Configured to execute test suites on Chrome and Firefox simultaneously, dramatically reducing execution time.
+* **Thread-Safe Driver Management:** Leverages Java's `ThreadLocal<WebDriver>` for instances to prevent data leaks and collisions during high-concurrency parallel runs.
+* **Smart Flaky-Test Management:** Custom `RetryAnalyzer` automatically catches transient failures, captures screenshots, and retries the test to ensure stable builds.
+* **Rich Interactive Reporting:** Native integration with **Allure Reports** featuring step-by-step breakdowns, visual screenshot attachments on failures, and historical execution trends.
 
-```
+---
+
+## 🧱 Architecture & Design Decisions
+
+The framework follows a highly readable, layered design to ensure maintainability:
+
+```text
 Tests
   ↓
 Flows (Business Logic)
@@ -29,85 +30,32 @@ Driver / Utils (Selenium handling)
 
 ### 🔹 Layers Explained
 
-#### 1. Tests (`/tests`)
-
-* Contain assertions only
-* Represent business scenarios
-* Do not interact with WebDriver directly
-
-#### 2. Flows (`/flows`)
-
-* Encapsulate user workflows (e.g., login, checkout)
-* Coordinate multiple page objects
-* Improve readability and reusability
-
-#### 3. Page Objects (`/pages`)
-
-* Represent UI pages
-* Contain locators and actions only
-* No assertions or test logic
-
-#### 4. Utilities (`/utils`)
-
-* Wait handling (explicit waits)
-* Screenshot utilities
-* Common reusable helpers
-
-#### 5. Driver Layer (`/driver`)
-
-* Thread-safe WebDriver using `ThreadLocal`
-* Centralized driver creation via `DriverFactory`
+* **Tests (`/tests`):** Contain assertions only. They represent business scenarios and do not interact with the WebDriver directly.
+* **Flows (`/flows`):** Encapsulate user workflows (e.g., login, checkout) and coordinate multiple page objects to improve readability and reusability.
+* **Page Objects (`/pages`):** Represent UI pages. They contain locators and actions only, strictly avoiding assertions or test logic.
+* **Utilities (`/utils`):** Handles explicit waits (`WaitUtils`), screenshot utilities, and common reusable helpers to avoid implicit waits or hardcoded thread sleeps.
+* **Driver Layer (`/driver`):** Centralized driver creation via `DriverFactory` managing the thread-safe life cycle.
 
 ---
 
-## ⚙️ Tech Stack
+## 🛠️ Tech Stack
 
-* Java 17
-* Selenium 4
-* TestNG
-* Gradle
-* SLF4J + Logback (logging)
-* WebDriverManager
-* TestNG Listeners
-
----
-
-## 🔄 Key Features
-
-### ✅ Thread-Safe Driver Management
-
-* Uses `ThreadLocal<WebDriver>` for parallel execution
-
-### ✅ Explicit Wait Strategy
-
-* Centralized `WaitUtils`
-* No implicit waits or thread sleeps
-
-### ✅ Flow Layer Abstraction
-
-* Separates business logic from UI interaction
-
-### ✅ Test Execution Control
-
-* `testng.xml` for suite management
-
-### ✅ Retry Mechanism
-
-* Automatically retries flaky tests (configurable)
-
-### ✅ Logging
-
-* Structured logging using SLF4J + Logback
-
-### ✅ Screenshot on Failure
-
-* Captured automatically via TestNG Listener
+| Component | Technology Used |
+| :--- | :--- |
+| **Language** | Java 17 |
+| **Automation Tool** | Selenium WebDriver 4 |
+| **Test Runner** | TestNG |
+| **Build Tool** | Gradle |
+| **Containerization** | Docker & Docker Compose |
+| **Reporting** | Allure |
+| **Logging** | SLF4J + Logback |
+| **CI/CD** | GitHub Actions |
 
 ---
 
 ## 📂 Project Structure
 
-```
+```text
 src
 ├── main
 │   ├── java
@@ -130,66 +78,44 @@ src
 
 ---
 
-## 🚀 How to Run Tests
+## 🚦 How to Run the Project
 
-### Run all tests
-
+### 1. Running Locally
+By default, the framework is configured for local execution. Run the following command in your terminal:
 ```bash
 ./gradlew clean test
 ```
 
-### Run specific suite
+### 2. Running on Docker Selenium Grid
+To utilize the distributed network and run tests across browsers simultaneously:
 
-Modify `testng.xml` groups:
+**Step A: Start the Grid**
+```bash
+docker compose up -d
+```
+> 💡 *You can verify the grid is live by visiting the dashboard at `http://localhost:4444/ui/`*
 
-```xml
-<include name="smoke"/>
+**Step B: Execute the Tests**
+Pass the `executionMode` system property to override the local properties default:
+```bash
+./gradlew clean test -DexecutionMode=grid
 ```
 
 ---
 
-## 🧪 Test Coverage
+## 📊 Generating Test Reports
 
-The framework includes:
+This project uses Allure for highly visual reporting. To view your reports locally after a test run:
 
-* Login validation (positive & negative)
-* Product selection and cart validation
-* Checkout flow (end-to-end)
-* Checkout validation errors
-* Data-driven test scenarios
-
----
-
-## 🧠 Design Decisions
-
-### Why Flow Layer?
-
-To separate business workflows from page-level interactions, improving readability and maintainability.
-
-### Why ThreadLocal WebDriver?
-
-To enable safe parallel execution without shared state issues.
-
-### Why Explicit Waits Only?
-
-To avoid flakiness and ensure precise synchronization.
-
-### Why External Test Data?
-
-To avoid hardcoding and support environment flexibility.
-
----
-
-## 📈 Future Improvements
-
-* CI/CD integration (GitHub Actions)
-* Allure reporting
-* Dockerized execution
-* Cross-browser execution support
-* API + UI combined testing
+1. Generate and serve the report:
+```bash
+allure serve build/allure-results
+```
+2. Your default browser will open a local web server hosting the complete graphical suite analysis, complete with screenshots of any failed steps.
 
 ---
 
 ## 👨‍💻 Author
 
 Krishna Dass
+
